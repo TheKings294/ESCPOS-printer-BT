@@ -1,0 +1,21 @@
+{
+  "name": "escpos-printer-bt",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "description": "Library to connect Bluetooth thermal printers using Web Bluetooth API.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheKings294/ESCPOS-printer-BT.git"
+  },
+  "keywords": [],
+  "author": "TheKings294",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheKings294/ESCPOS-printer-BT/issues"
+  },
+  "homepage": "https://github.com/TheKings294/ESCPOS-printer-BT#readme"
+}
