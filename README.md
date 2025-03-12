@@ -4,19 +4,14 @@ A lightweight JavaScript library that enables web applications to connect to a B
 
 ## Features
 
-- **Modular Design:** Two separate classes for managing Bluetooth connections and printing commands.
-- **Method Chaining:** Chain printing commands for formatting text (e.g., align center, add text, cut, and print).
-- **Easy Integration:** Install via npm and import into your projects.
-- **Browser Support:** Works in modern browsers supporting the Web Bluetooth API.
+- 📡 Connect to Bluetooth thermal printers
+- 🖨️ Send text data to the printer
+- 🏷️ Format and align printed text
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [API Documentation](#api-documentation)
-  - [ThermalPrinter](#thermalprinter)
-  - [Print](#print)
-- [Folder Structure](#folder-structure)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -27,3 +22,13 @@ Install the library via npm:
 ```bash
 npm install thermal-bluetooth-printer-lib
 ```
+
+## Usage
+
+### How to connect the printer
+
+### How to print your first ticket
+
+## Contributing
+
+## License
