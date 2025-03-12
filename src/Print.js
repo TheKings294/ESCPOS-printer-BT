@@ -1,21 +1,21 @@
-class Print {
+export class Print {
     constructor() {
         this.parameters = []
     }
     alignCenter() {
-        this.parameters['align'] = [0x1B, 0x61, 0x01]
+        this.parameters.push([0x1B, 0x61, 0x01])
         return this
     }
     alignLeft() {
-        this.parameters['align'] = [0x1B, 0x61, 0x00]
+        this.parameters.push([0x1B, 0x61, 0x00])
         return this
     }
     alignRight() {
-        this.parameters['align'] = [0x1B, 0x61, 0x02]
+        this.parameters.push([0x1B, 0x61, 0x02])
         return this
     }
     newLine() {
-        this.parameters['line'] = [0x0A]
+        this.parameters.push([0x0A])
         return this
     }
     bold(yes) {
@@ -23,7 +23,7 @@ class Print {
         if (yes) {
             hexa = 0x01
         }
-        this.parameters['bold'] = [0x1B, 0x45, hexa]
+        this.parameters.push([0x1B, 0x45, hexa])
         return this
     }
     fontSize(yes) {
@@ -31,7 +31,7 @@ class Print {
         if (yes) {
             hexa = 0x01
         }
-        this.parameters['fontSize'] = [0x1B, 0x4D, hexa]
+        this.parameters.push([0x1B, 0x4D, hexa])
         return this
     }
     underline(style) {
@@ -41,7 +41,7 @@ class Print {
         } else if (style === 2) {
             hexa = 0x02
         }
-        this.parameters['underline'] = [0X1B, 0x2D, hexa]
+        this.parameters.push([0X1B, 0x2D, hexa])
         return this
     }
     upsideDown(yes) {
@@ -49,24 +49,30 @@ class Print {
         if (yes) {
             hexa = 0x01
         }
-        this.parameters['upside_down'] = [0x1B, 0x7B, hexa]
+        this.parameters.push([0x1B, 0x7B, hexa])
         return this
     }
     resetLineSpacing() {
-        this.parameters['line_spacing'] = [0x1B, 0x32]
+        this.parameters.push([0x1B, 0x32])
         return this
     }
     setLineSpacing(dots) {
         const hexa = "0x" + dots
 
-        this.parameters['line_spacing'] = [0x1B, 0x33, hexa]
+        this.parameters.push([0x1B, 0x33, hexa])
         return this
     }
     partialCut() {
-        this.parameters['cut'] = [0x1B, 0x69]
+        this.parameters.push([0x1B, 0x69])
         return this
     }
     fullCut() {
-        this.parameters['cut'] = [0x1B, 0x6D]
+        this.parameters.push([0x1B, 0x6D])
+    }
+    addText(text) {
+        this.parameters.push(text)
+        return this
     }
 }
+
+export default Print
