@@ -3,7 +3,6 @@ class ThermalPrinter {
         this.divice = null
         this.server = null
         this.sufix = text != null ? text : "-0000-1000-8000-00805f9b34fb"
-        this.parameters = []
     }
     async conect(prefixConexion) {
         try {
@@ -19,15 +18,26 @@ class ThermalPrinter {
             return false
         }
     }
-    async printText(prefixConexion, prefixSendData) {
+    async printText(prefixConexion, prefixSendData, printInstance) {
         if (!this.server) {
             console.error("Not connected to a printer.");
+            return
+        }
+        if (!printInstance.parameters) {
+            console.error("error of assignment")
             return
         }
         try {
             const service = await this.server.getPrimaryService(prefixConexion != null ? prefixConexion + this.sufix : "000018f0" + this.sufix)
             const characteristic = await service.getCharacteristic(prefixSendData != null ? prefixSendData + this.sufix : "00002af1" + this.sufix)
             const encoder = new TextEncoder()
+
+            printInstance.parameters.forEach(line => {
+                if (typeof line === String) {
+                    characteristic.writeValue(encoder.encode(line))
+                }
+                characteristic.writeValue(new Uint8Array(line))
+            })
         } catch (error) {
             console.error("Error sending data:", error);
             return
@@ -38,18 +48,4 @@ class ThermalPrinter {
             this.divice.gatt.disconnect();
         }
     }
-    alignCenter() {
-        this.parameters['align'] = [0x1B, 0x61, 0x01]
-        return this
-    }
-    alignLeft() {
-        this.parameters['align'] = [0x1B, 0x61, 0x00]
-        return this
-    }
-    alignRight() {
-        this.parameters['align'] = [0x1B, 0x61, 0x02]
-        return this
-    }
 }
-
-export default ThermalPrinter

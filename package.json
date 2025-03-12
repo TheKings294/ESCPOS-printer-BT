@@ -2,7 +2,7 @@
   "name": "escpos-printer-bt",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "src/index.js",
   "description": "Library to connect Bluetooth thermal printers using Web Bluetooth API.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
