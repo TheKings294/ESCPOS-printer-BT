@@ -1,4 +1,4 @@
-class ThermalPrinter {
+export class ThermalPrinter {
     constructor(text) {
         this.divice = null
         this.server = null
@@ -7,7 +7,9 @@ class ThermalPrinter {
     async conect(prefixConexion) {
         try {
             this.divice = await navigator.bluetooth.requestDevice({
-                acceptAllDevices: true,
+                filters: [{
+                    name: 'Printer001'
+                }],
                 optionalServices: [prefixConexion != null ? prefixConexion + this.sufix : "000018f0" + this.sufix],
             })
 
@@ -32,16 +34,30 @@ class ThermalPrinter {
             const characteristic = await service.getCharacteristic(prefixSendData != null ? prefixSendData + this.sufix : "00002af1" + this.sufix)
             const encoder = new TextEncoder()
 
-            printInstance.parameters.forEach(line => {
-                if (typeof line === String) {
-                    characteristic.writeValue(encoder.encode(line))
+            await characteristic.writeValue(new Uint8Array([0x1B, 0x40]))
+            for (let line of printInstance.parameters) {
+                if (typeof line === 'string') {
+                    await characteristic.writeValue(encoder.encode(line))
+                } else {
+                    await characteristic.writeValue(new Uint8Array(line))
                 }
-                characteristic.writeValue(new Uint8Array(line))
-            })
+            }
         } catch (error) {
             console.error("Error sending data:", error);
             return
         }
+    }
+    async enableNotification(prefixConexion, prefixReciveData) {
+        console.log('je suis passer ici')
+        const service = await this.server.getPrimaryService(prefixConexion != null ? prefixConexion + this.sufix : "000018f0" + this.sufix)
+        const readCharacteristic = await service.getCharacteristic(prefixReciveData != null ? prefixReciveData + this.sufix : "00002af0" + this.sufix)
+
+        await readCharacteristic.startNotifications()
+        readCharacteristic.addEventListener('characteristicvaluechanged', (event) => {
+            const value = event.target.value;
+            let receivedData = new TextDecoder().decode(value);
+            console.log("Printer Response:", receivedData);
+        });
     }
     async disconnect() {
         if (this.divice && this.divice.gatt.connected) {
@@ -49,3 +65,5 @@ class ThermalPrinter {
         }
     }
 }
+
+export default ThermalPrinter
