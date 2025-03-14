@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/TheKings294/ESCPOS-printer-BT/issues"
   },
-  "homepage": "https://github.com/TheKings294/ESCPOS-printer-BT#readme"
+  "homepage": "https://github.com/TheKings294/ESCPOS-printer-BT#readme",
+  "dependencies": {
+    "escpos-printer-bt": "^1.0.0"
+  }
 }

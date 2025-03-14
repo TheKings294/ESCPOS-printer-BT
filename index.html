@@ -1,10 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Print test</title>
 </head>
 <body>
-$END$
+<div style="display: flex; justify-content: center; align-items: center">
+    <button id="conectBtn">Connect</button>
+    <button id="printBtn">Print</button>
+</div>
+<script src="src/index.js" type="module"></script>
+<script type="module">
+    import {Print, ThermalPrinter} from './src/index.js'
+    document.addEventListener('DOMContentLoaded',e => {
+
+        const printer = new ThermalPrinter()
+
+        document.querySelector('#conectBtn').addEventListener('click', async () => {
+            await printer.conect()
+            await printer.enableNotification()
+        })
+
+        document.querySelector('#printBtn').addEventListener('click', async () => {
+            const ticket = new Print()
+            ticket
+                .alignCenter()
+                .addText("McDonald's\n")
+                .addText("Date: 2025-03-11  14:45\n")
+                .alignLeft()
+                .addText("1x Big Mac       $4.99\n1x Fries         $2.49\n1x Coca-Cola     $1.99\n")
+                .underline(1)
+                .addText("TOTAL:         $9.47\n")
+                .addText("Thank you for visiting McDonald's!\n\n")
+                .newLine()
+                .newLine()
+                .newLine()
+                .alignCenter()
+                .qrCode(10, 3, "https://www.youtube.com/watch?v=4URUlW8SGGA")
+                .newLine()
+                .newLine()
+                .newLine()
+                .newLine()
+                .newLine()
+                .fullCut()
+            await printer.printText(null, null, ticket)
+        })
+    })
+</script>
 </body>
 </html>
