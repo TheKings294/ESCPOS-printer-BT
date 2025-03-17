@@ -1,13 +1,14 @@
 export class ThermalPrinter {
-    constructor(text) {
+    constructor(sufix, prefixConexion) {
         this.divice = null
         this.server = null
-        this.sufix = text != null ? text : "-0000-1000-8000-00805f9b34fb"
+        this.sufix = sufix != null ? sufix : "-0000-1000-8000-00805f9b34fb"
+        this.prefixConnexion = prefixConexion != null ? prefixConexion : "000018f0"
     }
     async conect(prefixConexion) {
         try {
             this.divice = await navigator.bluetooth.requestDevice({
-                acceptAllDevices: true,
+                filters: [{ services: [this.prefixConnexion + this.sufix] }],
                 optionalServices: [prefixConexion != null ? prefixConexion + this.sufix : "000018f0" + this.sufix],
             })
 
@@ -34,10 +35,11 @@ export class ThermalPrinter {
 
             await characteristic.writeValue(new Uint8Array([0x1B, 0x40]))
             for (let line of printInstance.parameters) {
+                console.log(line)
                 if (typeof line === 'string') {
-                    await characteristic.writeValue(encoder.encode(line))
+                    //await characteristic.writeValue(encoder.encode(line))
                 } else {
-                    await characteristic.writeValue(new Uint8Array(line))
+                    //await characteristic.writeValue(new Uint8Array(line))
                 }
             }
         } catch (error) {

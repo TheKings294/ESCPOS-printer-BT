@@ -77,46 +77,55 @@ export class Print {
         switch (type) {
             case 0: // UPC-A (11 or 12 digits)
                 if (data.length < 11 || data.length > 12) {
+                    console.error("Invalid data lenght, must be between 11 and 12")
                     return;
                 }
                 break;
             case 1: // UPC-E (6 to 8 digits)
                 if (data.length < 6 || data.length > 8) {
+                    console.error("Invalid data lenght, must be between 6 and 8")
                     return;
                 }
                 break;
             case 2: // EAN-13 (12 or 13 digits)
                 if (data.length < 12 || data.length > 13) {
+                    console.error("Invalid data lenght, must be between 12 and 13")
                     return;
                 }
                 break;
             case 3: // EAN-8 (7 or 8 digits)
                 if (data.length < 7 || data.length > 8) {
+                    console.error("Invalid data lenght, must be between 7 and 8")
                     return;
                 }
                 break;
             case 4: // CODE39 (1 to 48 characters)
                 if (data.length < 1 || data.length > 48) {
+                    console.error("Invalid data lenght, must be between 1 and 48")
                     return;
                 }
                 break;
             case 5: // ITF (Interleaved 2 of 5) (Even number of digits, max 48)
                 if (data.length % 2 !== 0 || data.length > 48) {
+                    console.error("Invalid data lenght, must be between 2 and 48")
                     return;
                 }
                 break;
             case 6: // NW-7 (Codabar) (2 to 48 characters)
                 if (data.length < 2 || data.length > 48) {
+                    console.error("Invalid data lenght, must be between 2 and 48")
                     return;
                 }
                 break;
             case 7: // CODE93 (1 to 48 characters)
                 if (data.length < 1 || data.length > 48) {
+                    console.error("Invalid data lenght, must be between 1 and 48")
                     return;
                 }
                 break;
             case 8: // CODE128 (1 to 48 characters)
                 if (data.length < 1 || data.length > 48) {
+                    console.error("Invalid data lenght, must be between 1 and 48")
                     return;
                 }
                 break;
@@ -124,10 +133,14 @@ export class Print {
                 return; // Invalid barcode type
         }
         const encodedData = new TextEncoder().encode(data);
-        const codeBarType = [0x1D, 0x6D, "0x" + type.toString(16)]
 
-        this.parameters.push(codeBarType)
-        this.parameters.push([...encodedData, 0x00])
+        this.parameters.push([0x1D, 0x77, 3]); // Barcode width (3 dots)
+        this.parameters.push([0x1D, 0x68, 100]); // Barcode height (100 dots)
+        this.parameters.push([0x1D, 0x6D, type])
+        this.parameters.push(...encodedData)
+        this.parameters.push([0x00])
+
+        //this.parameters.push([0x0A]);
         return this
     }
     qrCode(size, correction, data) {
