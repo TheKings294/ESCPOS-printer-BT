@@ -20,7 +20,7 @@ A lightweight JavaScript library that enables web applications to connect to a B
 Install the library via npm:
 
 ```bash
-npm install thermal-bluetooth-printer-lib
+npm i escpos-printer-bt
 ```
 
 ## Usage
